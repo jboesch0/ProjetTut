@@ -39,24 +39,23 @@ public class AffichageActivity extends AppCompatActivity {
         infoPuissanceTw = (TextView) findViewById(R.id.infoPuissanceTw);
         btnStart = (Button)findViewById(R.id.btnStart);
         localisationGPS = LocalisationGPS.get(getApplicationContext());
-        localisationGPS.startLocationUpdates();
 
 
+        br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.d("log3", "zzzz");
+                altitude = intent.getDoubleExtra(LocalisationGPS.KEY_ALTITUDE, 0d);
+                Log.d("altitude", altitude.toString());
+            }
+        };
 
 
         //Listner
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                br = new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        Log.d("log3", "zzzz");
-                        altitude = intent.getDoubleExtra(LocalisationGPS.KEY_ALTITUDE, 0d);
-                        Log.d("altitude", altitude.toString());
-                    }
-                };
-
+                localisationGPS.startLocationUpdates();
             }
         });
 
