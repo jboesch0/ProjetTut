@@ -3,37 +3,54 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".AffichageActivity">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Capteur de puissance"
-            android:id="@+id/titreTw"
+            android:text="Votre poids est:"
+            android:id="@+id/textView"
             android:layout_gravity="center_horizontal"
             android:textSize="30dp"
             android:layout_marginTop="50dp" />
 
-        <EditText
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/poidsEt"
+            android:id="@+id/infoPoidsTw"
             android:layout_gravity="center_horizontal"
-            android:autoText="false"
-            android:hint="Entrez votre poids en KG"
+            android:textSize="30dp"
+            android:layout_marginTop="30dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Puissance:"
+            android:id="@+id/textView2"
+            android:layout_gravity="center_horizontal"
+            android:textSize="30dp"
             android:layout_marginTop="50dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/infoPuissanceTw"
+            android:layout_gravity="center_horizontal"
+            android:textSize="25dp"
+            android:layout_marginTop="30dp" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enregister"
-            android:id="@+id/btnEnregistrerPoids"
+            android:text="Démarrer l&apos;entrainement"
+            android:id="@+id/btnStart"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="30dp" />
     </LinearLayout>
 </RelativeLayout>
