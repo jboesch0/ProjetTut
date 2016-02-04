@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //Récupération du poids
             int poids = Integer.parseInt(etPoids.getText().toString());
-            editor.putInt("poids", poids);
+            editor.putFloat("poids", poids);
             editor.commit();
             startActivity(new Intent(MainActivity.this, AffichageActivity.class));
             finish();

@@ -35,14 +35,14 @@ public class LocalisationGPS {
 
     public void startLocationUpdates() {
         try {
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 1, new LocationListener() {
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 1, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
                     if (location != null) {
+
                         intent = new Intent(KEY_POSITION);
                         intent.putExtra(KEY_ALTITUDE, location.getAltitude());
                         mAppContext.sendBroadcast(intent);
-
                     }
                 }
 

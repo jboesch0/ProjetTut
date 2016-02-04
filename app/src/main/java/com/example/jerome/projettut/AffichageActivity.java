@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.jerome.projettut.localisaion.LocalisationGPS;
 
@@ -26,8 +25,16 @@ public class AffichageActivity extends AppCompatActivity {
     TextView infoPoidsTw;
     TextView infoPuissanceTw;
     Button btnStart;
-    Double altitude;
+    double altitude;
     LocalisationGPS localisationGPS;
+    double altitudePrecedente;
+    double altitudeCourante;
+    double deltaAltitude;
+    float masse;
+    static final double G = 9.81;
+    static final double DT = 10.;
+    static int compteur = 0;
+    double puissance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +51,35 @@ public class AffichageActivity extends AppCompatActivity {
         br = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.d("log3", "zzzz");
                 altitude = intent.getDoubleExtra(LocalisationGPS.KEY_ALTITUDE, 0d);
-                Log.d("altitude", altitude.toString());
+                compteur += 1;
+                Log.d("altitude", String.valueOf(altitude));
+
+                if(altitudePrecedente == 0){
+                    altitudePrecedente = altitude;
+                    altitudeCourante = altitudePrecedente;
+                }else {
+                    altitudePrecedente = altitudeCourante;
+                    altitudeCourante = altitude;
+                }
+
+                deltaAltitude = altitudeCourante - altitudePrecedente;
+
+                if(deltaAltitude < 0){
+                    deltaAltitude = 0.;
+                }
+                Log.d("Alt prec", String.valueOf(altitudePrecedente));
+                Log.d("Alt cour", String.valueOf(altitudeCourante));
+                Log.d("Delta", String.valueOf(deltaAltitude));
+
+                if(compteur == 3){
+                    puissance = masse * G * (deltaAltitude)/(DT);
+                    compteur = 0;
+                    Log.d("PUISSANCE", String.valueOf(puissance/1000));
+                }
             }
         };
+
 
 
         //Listner
@@ -62,8 +93,8 @@ public class AffichageActivity extends AppCompatActivity {
 
         //Récupération et affichage du poids
         preferences = getSharedPreferences(MainActivity.PREF_POIDS, 0);
-        int poids = preferences.getInt("poids", 0);
-        infoPoidsTw.setText(String.valueOf(poids));
+        masse = preferences.getFloat("poids", 0);
+        infoPoidsTw.setText(String.valueOf(masse));
 
     }
 
