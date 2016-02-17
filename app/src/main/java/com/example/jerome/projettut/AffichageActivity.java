@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,29 +13,46 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.jerome.projettut.Tasks.FileWriterAsyncTask;
 import com.example.jerome.projettut.localisaion.LocalisationGPS;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 
 /**
  * Created by Jerome on 03/02/2016.
  */
-public class AffichageActivity extends AppCompatActivity {
+public class AffichageActivity extends AppCompatActivity implements Serializable {
 
     public BroadcastReceiver br;
     SharedPreferences preferences;
     TextView infoPoidsTw;
     TextView infoPuissanceTw;
     Button btnStart;
+    Button btnStop;
     double altitude;
     LocalisationGPS localisationGPS;
     double altitudePrecedente;
     double altitudeCourante;
     double deltaAltitude;
+    Double total = 0.;
+    Double moyenne = 0.;
     float masse;
     static final double G = 9.81;
-    static final double DT = 10.;
+    static final double DT = 3;
     static int compteur = 0;
-    double puissance;
+    Double puissance;
+    ArrayList<Double> tabPuissances;
+
+
+    Queue<Double> queue =new LinkedList<Double>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +60,52 @@ public class AffichageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_affichage);
 
         //Variables
+        tabPuissances = new ArrayList<>();
         infoPoidsTw = (TextView)findViewById(R.id.infoPoidsTw);
         infoPuissanceTw = (TextView) findViewById(R.id.infoPuissanceTw);
         btnStart = (Button)findViewById(R.id.btnStart);
+        btnStop = (Button) findViewById(R.id.btnStop);
         localisationGPS = LocalisationGPS.get(getApplicationContext());
 
 
         br = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
+                //Iterator it=queue.iterator();
                 altitude = intent.getDoubleExtra(LocalisationGPS.KEY_ALTITUDE, 0d);
-                compteur += 1;
+                queue.add(altitude);
+                altitudeCourante = altitude;
+                if (altitudePrecedente == 0){
+                    altitudePrecedente = altitude;
+                }
+                //Delta altitude generale pour calcul puissance
+                deltaAltitude = altitudeCourante - altitudePrecedente;
+
+                if (queue.size() == 5){
+                    for (Double d : queue){
+                        total += d;
+                    }
+                    moyenne = total / queue.size();
+                    deltaAltitude = altitudeCourante - moyenne;
+                    queue.poll();
+                }
+
+                total = 0.;
+
+                altitudePrecedente = moyenne;
+
+                puissance = masse * G * (deltaAltitude/DT);
+
+                Log.d("MOY", String.valueOf(moyenne));
+                Log.d("DELTA", String.valueOf(deltaAltitude));
+                Log.d("PUISS", String.valueOf(puissance));
+
+                tabPuissances.add(puissance);
+                infoPuissanceTw.setText(String.valueOf(puissance));
+
+
+               // compteur += 1;
+                /*
                 Log.d("altitude", String.valueOf(altitude));
 
                 if(altitudePrecedente == 0){
@@ -68,21 +121,36 @@ public class AffichageActivity extends AppCompatActivity {
                 if(deltaAltitude < 0){
                     deltaAltitude = 0.;
                 }
+
                 Log.d("Alt prec", String.valueOf(altitudePrecedente));
                 Log.d("Alt cour", String.valueOf(altitudeCourante));
                 Log.d("Delta", String.valueOf(deltaAltitude));
 
-                if(compteur == 3){
-                    puissance = masse * G * (deltaAltitude)/(DT);
-                    compteur = 0;
-                    Log.d("PUISSANCE", String.valueOf(puissance/1000));
-                }
+                puissance = masse * G * (deltaAltitude)/(DT);
+                Log.d("PUISSANCE", String.valueOf(puissance/1000));
+                */
+
             }
         };
 
 
 
         //Listner
+        btnStop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //localisationGPS.stopLocationUpdate();
+                Intent myIntent = new Intent(getApplicationContext(), SimpleXYPlotActivity.class);
+                System.out.println(tabPuissances);
+                myIntent.putExtra("ARR", tabPuissances); //Optional parameters
+                AffichageActivity.this.startActivity(myIntent);
+                new FileWriterAsyncTask(getApplicationContext(), masse).execute(tabPuissances);
+
+            }
+
+        });
+
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -16,6 +16,7 @@ public class LocalisationGPS {
     Context mAppContext;
     LocationManager mLocationManager;
     Intent intent;
+    LocationListener locationListener;
 
     public static final String KEY_POSITION = "CURRENT_POSITION";
     public static final String KEY_ALTITUDE = "CURRENT_ALTITUDE";
@@ -35,11 +36,10 @@ public class LocalisationGPS {
 
     public void startLocationUpdates() {
         try {
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 1, new LocationListener() {
+            locationListener = new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
                     if (location != null) {
-
                         intent = new Intent(KEY_POSITION);
                         intent.putExtra(KEY_ALTITUDE, location.getAltitude());
                         mAppContext.sendBroadcast(intent);
@@ -60,11 +60,16 @@ public class LocalisationGPS {
                 public void onProviderDisabled(String provider) {
 
                 }
-            });
+            };
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0,locationListener);
         } catch (SecurityException e) {
             Log.e("LocalisationGPS", "Erreur d'exception");
         }
 
+    }
+
+    public void stopLocationUpdate(){
+        mLocationManager.removeUpdates(locationListener);
     }
 
 

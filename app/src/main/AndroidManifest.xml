@@ -22,6 +22,10 @@
             android:name="com.example.jerome.projettut.AffichageActivity"
             android:label="Affichage Activity">
         </activity>
+        <activity
+            android:name="com.example.jerome.projettut.SimpleXYPlotActivity"
+            android:label="Affichage Activity">
+        </activity>
     </application>
 
 </manifest>
