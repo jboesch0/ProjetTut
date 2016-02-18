@@ -46,7 +46,6 @@ public class AffichageActivity extends AppCompatActivity implements Serializable
     float masse;
     static final double G = 9.81;
     static final double DT = 3;
-    static int compteur = 0;
     Double puissance;
     ArrayList<Double> tabPuissances;
     Queue<Double> queue =new LinkedList<Double>();
@@ -65,17 +64,23 @@ public class AffichageActivity extends AppCompatActivity implements Serializable
         btnStop = (Button) findViewById(R.id.btnStop);
         localisationGPS = LocalisationGPS.get(getApplicationContext());
 
+        //Récupération et affichage du poids
+        preferences = getSharedPreferences(MainActivity.PREF_POIDS, 0);
+        masse = preferences.getFloat("poids", 0);
+        infoPoidsTw.setText(String.valueOf(masse));
+
 
         br = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                //Iterator it=queue.iterator();
+
                 altitude = intent.getDoubleExtra(LocalisationGPS.KEY_ALTITUDE, 0d);
                 queue.add(altitude);
                 altitudeCourante = altitude;
                 if (altitudePrecedente == 0){
                     altitudePrecedente = altitude;
                 }
+
                 //Delta altitude generale pour calcul puissance
                 deltaAltitude = altitudeCourante - altitudePrecedente;
 
@@ -89,18 +94,18 @@ public class AffichageActivity extends AppCompatActivity implements Serializable
                 }
 
                 total = 0.;
-
                 altitudePrecedente = moyenne;
-
                 puissance = masse * G * (deltaAltitude/DT);
-
-                Log.d("MOY", String.valueOf(moyenne));
-                Log.d("DELTA", String.valueOf(deltaAltitude));
-                Log.d("PUISS", String.valueOf(puissance));
-
+                if (puissance < 0){
+                    puissance = 0.;
+                }
                 tabPuissances.add(puissance);
                 infoPuissanceTw.setText(String.valueOf(puissance));
 
+                Log.d("ALTITUDE", String.valueOf(altitude));
+                Log.d("MOY", String.valueOf(moyenne));
+                Log.d("DELTA", String.valueOf(deltaAltitude));
+                Log.d("PUISS", String.valueOf(puissance));
 
                // compteur += 1;
                 /*
@@ -144,7 +149,6 @@ public class AffichageActivity extends AppCompatActivity implements Serializable
                 myIntent.putExtra("ARR", tabPuissances);
                 AffichageActivity.this.startActivity(myIntent);
                 new FileWriterAsyncTask(getApplicationContext(), masse).execute(tabPuissances);
-
             }
 
         });
@@ -156,12 +160,6 @@ public class AffichageActivity extends AppCompatActivity implements Serializable
 
             }
         });
-
-
-        //Récupération et affichage du poids
-        preferences = getSharedPreferences(MainActivity.PREF_POIDS, 0);
-        masse = preferences.getFloat("poids", 0);
-        infoPoidsTw.setText(String.valueOf(masse));
 
     }
 
