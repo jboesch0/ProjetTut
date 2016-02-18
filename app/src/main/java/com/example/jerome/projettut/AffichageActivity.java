@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -48,10 +49,7 @@ public class AffichageActivity extends AppCompatActivity implements Serializable
     static int compteur = 0;
     Double puissance;
     ArrayList<Double> tabPuissances;
-
-
     Queue<Double> queue =new LinkedList<Double>();
-
 
 
     @Override
@@ -143,7 +141,7 @@ public class AffichageActivity extends AppCompatActivity implements Serializable
                 //localisationGPS.stopLocationUpdate();
                 Intent myIntent = new Intent(getApplicationContext(), SimpleXYPlotActivity.class);
                 System.out.println(tabPuissances);
-                myIntent.putExtra("ARR", tabPuissances); //Optional parameters
+                myIntent.putExtra("ARR", tabPuissances);
                 AffichageActivity.this.startActivity(myIntent);
                 new FileWriterAsyncTask(getApplicationContext(), masse).execute(tabPuissances);
 
@@ -155,6 +153,7 @@ public class AffichageActivity extends AppCompatActivity implements Serializable
             @Override
             public void onClick(View v) {
                 localisationGPS.startLocationUpdates();
+
             }
         });
 
