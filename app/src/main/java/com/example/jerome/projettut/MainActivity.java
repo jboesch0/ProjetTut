@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public EditText etPoids;
+    public EditText etDeltaT;
     public Button btnEnregistrerPoids;
     public final static String PREF_POIDS = "PREF_POIDS";
 
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         etPoids = (EditText) findViewById(R.id.poidsEt);
+        etDeltaT = (EditText) findViewById(R.id.deltaEt);
         btnEnregistrerPoids = (Button) findViewById(R.id.btnEnregistrerPoids);
         btnEnregistrerPoids.setOnClickListener(this);
     }
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SharedPreferences.Editor editor = preferences.edit();
             int poids = Integer.parseInt(etPoids.getText().toString());
             editor.putFloat("poids", poids);
+            editor.putInt("deltaT", Integer.parseInt(etDeltaT.getText().toString()));
             editor.apply();
             startActivity(new Intent(MainActivity.this, AffichageActivity.class));
             finish();

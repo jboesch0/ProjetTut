@@ -8,6 +8,8 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.jerome.projettut.AffichageActivity;
+
 /**
  * Created by couchot on 05/01/16.
  */
@@ -61,7 +63,7 @@ public class LocalisationGPS {
 
                 }
             };
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0,locationListener);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, Integer.parseInt(String.valueOf(AffichageActivity.DT))*1000, 0,locationListener);
         } catch (SecurityException e) {
             e.printStackTrace();
         }

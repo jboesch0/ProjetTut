@@ -45,7 +45,7 @@ public class AffichageActivity extends AppCompatActivity implements Serializable
     Double moyenne = 0.;
     float masse;
     static final double G = 9.81;
-    static final double DT = 3;
+    public static double DT = 3;
     Double puissance;
     ArrayList<Double> tabPuissances;
     Queue<Double> queue =new LinkedList<Double>();
@@ -67,6 +67,9 @@ public class AffichageActivity extends AppCompatActivity implements Serializable
         //Récupération et affichage du poids
         preferences = getSharedPreferences(MainActivity.PREF_POIDS, 0);
         masse = preferences.getFloat("poids", 0);
+        if (preferences.getInt("deltaT",0) != 0){
+            DT = preferences.getInt("deltaT", 0);
+        }
         infoPoidsTw.setText(String.valueOf(masse));
 
 
