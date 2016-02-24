@@ -21,11 +21,11 @@
         </activity>
         <activity
             android:name="com.example.jerome.projettut.AffichageActivity"
-            android:label="Affichage Activity">
+            android:label="Puissance instantanée">
         </activity>
         <activity
             android:name="com.example.jerome.projettut.SimpleXYPlotActivity"
-            android:label="Affichage Activity">
+            android:label="Graphique des puissances">
         </activity>
     </application>
 

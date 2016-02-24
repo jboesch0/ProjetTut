@@ -63,7 +63,7 @@ public class LocalisationGPS {
             };
             mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0,locationListener);
         } catch (SecurityException e) {
-            Log.e("LocalisationGPS", "Erreur d'exception");
+            e.printStackTrace();
         }
 
     }

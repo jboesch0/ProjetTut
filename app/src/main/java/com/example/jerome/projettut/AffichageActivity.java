@@ -81,7 +81,6 @@ public class AffichageActivity extends AppCompatActivity implements Serializable
                     altitudePrecedente = altitude;
                 }
 
-                //Delta altitude generale pour calcul puissance
                 deltaAltitude = altitudeCourante - altitudePrecedente;
 
                 if (queue.size() == 5){
@@ -102,43 +101,10 @@ public class AffichageActivity extends AppCompatActivity implements Serializable
                 tabPuissances.add(puissance);
                 infoPuissanceTw.setText(String.valueOf(puissance));
 
-                Log.d("ALTITUDE", String.valueOf(altitude));
-                Log.d("MOY", String.valueOf(moyenne));
-                Log.d("DELTA", String.valueOf(deltaAltitude));
-                Log.d("PUISS", String.valueOf(puissance));
-
-               // compteur += 1;
-                /*
-                Log.d("altitude", String.valueOf(altitude));
-
-                if(altitudePrecedente == 0){
-                    altitudePrecedente = altitude;
-                    altitudeCourante = altitudePrecedente;
-                }else {
-                    altitudePrecedente = altitudeCourante;
-                    altitudeCourante = altitude;
-                }
-
-                deltaAltitude = altitudeCourante - altitudePrecedente;
-
-                if(deltaAltitude < 0){
-                    deltaAltitude = 0.;
-                }
-
-                Log.d("Alt prec", String.valueOf(altitudePrecedente));
-                Log.d("Alt cour", String.valueOf(altitudeCourante));
-                Log.d("Delta", String.valueOf(deltaAltitude));
-
-                puissance = masse * G * (deltaAltitude)/(DT);
-                Log.d("PUISSANCE", String.valueOf(puissance/1000));
-                */
-
             }
         };
 
 
-
-        //Listner
         btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

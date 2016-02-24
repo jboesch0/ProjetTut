@@ -4,15 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Environment;
-
 import com.example.jerome.projettut.MainActivity;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -42,7 +38,7 @@ public class FileWriterAsyncTask extends AsyncTask<ArrayList<Double>, Void, Void
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Resume-parcours";
         File dir = new File(path);
         dir.mkdirs();
-        File file = new File(path + "/test.txt");
+        File file = new File(path + "/puissances.txt");
         try {
             FileOutputStream fos = new FileOutputStream(file);
             String stringPoids = "Votre poids est de : " + poids + "\n";
@@ -58,7 +54,6 @@ public class FileWriterAsyncTask extends AsyncTask<ArrayList<Double>, Void, Void
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
         return null;
     }

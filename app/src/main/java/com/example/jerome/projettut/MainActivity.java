@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-
-
         if (v.getId() == R.id.btnEnregistrerPoids){
             SharedPreferences preferences = getSharedPreferences(PREF_POIDS, 0);
             SharedPreferences.Editor editor = preferences.edit();
