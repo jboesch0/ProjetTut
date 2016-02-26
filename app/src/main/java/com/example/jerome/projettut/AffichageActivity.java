@@ -70,7 +70,7 @@ public class AffichageActivity extends AppCompatActivity implements Serializable
         if (preferences.getInt("deltaT",0) != 0){
             DT = preferences.getInt("deltaT", 0);
         }
-        infoPoidsTw.setText(String.valueOf(masse));
+        infoPoidsTw.setText(String.valueOf(masse + " Kg"));
 
 
         br = new BroadcastReceiver() {
@@ -102,7 +102,7 @@ public class AffichageActivity extends AppCompatActivity implements Serializable
                     puissance = 0.;
                 }
                 tabPuissances.add(puissance);
-                infoPuissanceTw.setText(String.valueOf(puissance));
+                infoPuissanceTw.setText(String.valueOf(puissance + " W"));
 
             }
         };

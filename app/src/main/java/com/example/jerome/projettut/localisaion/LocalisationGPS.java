@@ -63,7 +63,7 @@ public class LocalisationGPS {
 
                 }
             };
-            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, Integer.parseInt(String.valueOf(AffichageActivity.DT))*1000, 0,locationListener);
+            mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, Integer.parseInt(String.valueOf(((int) AffichageActivity.DT) *1000)), 0,locationListener);
         } catch (SecurityException e) {
             e.printStackTrace();
         }
