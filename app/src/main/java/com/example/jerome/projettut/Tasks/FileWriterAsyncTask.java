@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Jerome on 17/02/2016.
@@ -38,7 +39,7 @@ public class FileWriterAsyncTask extends AsyncTask<ArrayList<Double>, Void, Void
         String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Resume-parcours";
         File dir = new File(path);
         dir.mkdirs();
-        File file = new File(path + "/puissances.txt");
+        File file = new File(path + "/puissances-" + new Date() + ".txt");
         try {
             FileOutputStream fos = new FileOutputStream(file);
             String stringPoids = "Votre poids est de : " + poids + "\n";
